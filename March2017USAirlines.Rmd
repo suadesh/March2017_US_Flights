@@ -213,9 +213,10 @@ or 150 min .
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 mean(flights$CANCELLED)
-ggplot(data = flights, aes (x= CANCELLED ))+
-  geom_histogram(stat = 'count',binwidth = 1)+
+ggplot(data = flights, aes (x= (CANCELLED == 1)))+
+  geom_histogram(stat = 'count', binwidth = 1)+
   theme_minimal() +
+  labs(x = 'Cancelled') +
   scale_y_continuous(breaks = seq(0,500000,50000))
 
 ggplot(data = subset(flights,flights$CANCELLED == 1 ), 
@@ -234,11 +235,14 @@ System (C) was the second and Carrier(A) the less common.
 
 ggplot(data = flights , aes(x = FL_DATE)) +
   geom_histogram(stat='count') +
-  theme_minimal()
+  theme_minimal() +
+  coord_flip()
 
 ggplot(data = flights , aes(x= DAY_OF_WEEK)) +
   geom_histogram(stat='count') +
-  theme_minimal()
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1,7,1)) +
+  coord_flip()
 
 ```
 
@@ -324,15 +328,32 @@ there are 4 different check for an airplane and the longest normally is
 every 6 years and could take up to month to complete it. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+
+levels(flights$ORIGIN_STATE_NM) <- c(levels(flights$ORIGIN_STATE_NM), 
+                                     'U.S. Pacific Ter. & Tru.') 
+levels(flights$DEST_STATE_NM) <- c(levels(flights$DEST_STATE_NM), 
+                                   'U.S. Pacific Ter. & Tru.') 
+
+flights$ORIGIN_STATE_NM[flights$ORIGIN_STATE_NM == 
+                          'U.S. Pacific Trust Territories and Possessions'] <-
+  'U.S. Pacific Ter. & Tru.'
+
+flights$DEST_STATE_NM[flights$DEST_STATE_NM == 
+                          'U.S. Pacific Trust Territories and Possessions'] <-
+  'U.S. Pacific Ter. & Tru.'
+
 A <- ggplot(data = flights, aes(x = flights$ORIGIN_STATE_NM)) +
   geom_histogram(stat='count') +
   coord_flip() +
-  xlab('Origin State Name')
+  labs(x = 'State Name', title = ' Origin') +
+  theme(axis.text = element_text(size = 5))
 
 B <- ggplot(data = flights, aes(x = flights$DEST_STATE_NM)) +
   geom_histogram(stat='count') +
   coord_flip() +
-  xlab('')
+  labs(x = '' , title = 'Destination' )
+  theme(axis.text = element_text(size = 5))
 
 grid.arrange(A,B,ncol = 2 )
 ```
@@ -1105,11 +1126,7 @@ taxi out mean ( of the origin airport).
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ggplot(data =subset(flights_sample, 
-                    flights_sample$ORIGIN_STATE_NM !=
-                      'U.S. Pacific Trust Territories and Possessions' & 
-                      flights_sample$DEST_STATE_NM !=  
-                      'U.S. Pacific Trust Territories and Possessions'), 
+ggplot(data = flights_sample, 
        aes(DEST_STATE_NM,ORIGIN_STATE_NM)) + 
   geom_tile(aes(fill = ARR_DELAY)) + 
   scale_fill_gradient(low = "blue",high = "red") +
@@ -1252,7 +1269,7 @@ Delta kept 75% of his flights on time.
 ### Plot Two
 ```{r echo=FALSE, message=FALSE, warning=FALSE, Plot_Two}
 ggplot(data = flights_by_tail_info, aes(arr_delay_mean,n)) +
-  geom_jitter(aes(colour = distance_mean), alpha =1/5) +
+  geom_jitter(aes(colour = distance_mean), alpha =1/4) +
   scale_x_continuous(limits = c(-25,100)) +
   theme_minimal() +
   scale_color_gradient(low='PaleTurquoise', high='DarkMagenta',

@@ -6,7 +6,15 @@ output:
 Commercial Aviation March 2017 Exploration by Massimiliano Z D'Adamo
 ========================================================
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, packages}
+
+```{r global_options, include=FALSE}
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+```
+
+
+```{r echo=FALSE,  Packages} 
+knitr::opts_chunk$set(echo=FALSE, warning=FALSE, message=FALSE)
+
 # Load all of the packages that you end up using in your analysis in this code
 # chunk.
 
@@ -54,11 +62,14 @@ There should be multiple code chunks and text sections; the first one below is
 just to help you get started.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, Univariate_Plots}
-ggplot(data = flights, aes (x = UNIQUE_CARRIER))+
-  geom_histogram(stat = 'count', aes(fill = UNIQUE_CARRIER))+
-  scale_y_continuous(breaks = seq(0,120000,10000))+
-  theme_minimal()
+ggplot(data = flights, aes (x = UNIQUE_CARRIER)) +
+  geom_histogram(stat = 'count', aes(fill = UNIQUE_CARRIER)) + 
+  scale_y_continuous(breaks = seq(0,120000,10000)) +
+  theme_minimal() +
+  guides(fill=FALSE)
 ```
+
+
 The 12 airline that serve in march 2017 the US internal Market 
 
 
@@ -66,22 +77,25 @@ The 12 airline that serve in march 2017 the US internal Market
 summary(flights$DEP_DELAY)
 summary(flights$ARR_DELAY)
 
-C <- ggplot(data = flights, aes ( x=ARR_DELAY ))+
-  geom_histogram(binwidth = 5,fill = 'navy')+
-  coord_cartesian(xlim = c(-100,400))+
-  geom_abline(slope = 99999999999999999, color = 'darkred')+
+C <- ggplot(data = flights, aes(x=ARR_DELAY)) +
+  geom_histogram(binwidth = 5,fill = 'navy') +
+  coord_cartesian(xlim = c(-100,400)) +
+  geom_abline(slope = 99999999999999999, color = 'darkred') +
   theme_minimal()
 
 
-D <- ggplot(data = flights, aes ( x=DEP_DELAY))+
-  geom_histogram(binwidth = 5,fill = 'darkred')+
+D <- ggplot(data = flights, aes(x=DEP_DELAY)) +
+  geom_histogram(binwidth = 5, fill = 'darkred') +
   coord_cartesian(xlim = c(-100,400))+
-  geom_abline(slope = 99999999999999999, color = 'navy')+
+  geom_abline(slope = 99999999999999999, color = 'navy') +
   theme_minimal()
 
 grid.arrange(D,C,ncol = 1)
 
 ```
+
+
+
 Here we can see the variables delay from departure and arriving. the negative 
 values indicate that the flight arrived early. 
 I was looking for differences in the shape , and actually what i think emerge 
@@ -95,11 +109,13 @@ we can see a similar slope after 0.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 flights$DIFFERENCE <- flights$ARR_DELAY - flights$DEP_DELAY
-ggplot(data=flights, aes(x = DIFFERENCE))+
+ggplot(data=flights, aes(x = DIFFERENCE)) +
   geom_density()
 
 summary(flights$DIFFERENCE)
 ```
+
+
 
 As we can see , difference ( arriving minus departure delay), has a normal shape
 around the mean of -4.95. So flights recover almost 5 minutes in flights. 
@@ -111,29 +127,34 @@ summary(flights$NAS_DELAY)
 summary(flights$SECURITY_DELAY)
 summary(flights$LATE_AIRCRAFT_DELAY)
 
-Z <- ggplot(data = subset(flights,flights$CARRIER_DELAY >0), aes (x= CARRIER_DELAY))+
-  geom_histogram(binwidth = 10, fill = 'darkred')+
-  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50))+
+Z <- ggplot(data = subset(flights,flights$CARRIER_DELAY >0), 
+            aes (x= CARRIER_DELAY)) +
+  geom_histogram(binwidth = 10, fill ='darkred') +
+  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50)) +
   theme_minimal()
 
-X <- ggplot(data = subset(flights,flights$WEATHER_DELAY >0), aes (x= WEATHER_DELAY))+
-  geom_histogram(binwidth = 10, fill = 'orange')+
-  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50))+
+X <- ggplot(data = subset(flights,flights$WEATHER_DELAY >0), 
+            aes (x= WEATHER_DELAY)) +
+  geom_histogram(binwidth = 10, fill ='orange') +
+  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50)) +
   theme_minimal()
 
-Y <- ggplot(data = subset(flights,flights$NAS_DELAY >0), aes (x= NAS_DELAY))+
-  geom_histogram(binwidth = 10, fill = 'navy')+
-  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50))+
+Y <- ggplot(data = subset(flights,flights$NAS_DELAY >0), 
+            aes (x= NAS_DELAY)) +
+  geom_histogram(binwidth = 10, fill ='navy') +
+  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50)) +
   theme_minimal()
   
-W <-ggplot(data = subset(flights,flights$SECURITY_DELAY >0), aes (x= SECURITY_DELAY))+
-  geom_histogram(binwidth = 10, fill = 'green')+
-  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50))+
-  theme_minimal()  
+W <-ggplot(data = subset(flights,flights$SECURITY_DELAY >0), 
+           aes (x= SECURITY_DELAY)) +
+  geom_histogram(binwidth = 10, fill ='green') +
+  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50)) +
+  theme_minimal()
 
-L <-ggplot(data = subset(flights,flights$LATE_AIRCRAFT_DELAY >0), aes (x= LATE_AIRCRAFT_DELAY))+
-  geom_histogram(binwidth = 10, fill = 'blue')+
-  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50))+
+L <-ggplot(data = subset(flights,flights$LATE_AIRCRAFT_DELAY >0), 
+           aes (x= LATE_AIRCRAFT_DELAY)) +
+  geom_histogram(binwidth = 10, fill ='blue') +
+  scale_x_continuous(limits = c(0,500), breaks = seq(0,500,50)) +
   theme_minimal()
 
 grid.arrange(Z,X,Y,W,L,ncol = 2 )
@@ -144,25 +165,31 @@ grid.arrange(Z,X,Y,W,L,ncol = 2 )
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 summary(flights$DISTANCE)
 
-ggplot(data = flights , aes ( x =DISTANCE))+
-  geom_histogram(fill = 'orange')+
-  scale_x_continuous(breaks = seq(0,5000,250))+
-  theme_minimal()
+ggplot(data = flights , aes ( x =DISTANCE)) +
+  geom_histogram(fill ='orange') +
+  scale_x_continuous(breaks = seq(0,5000,500)) +
+  theme_minimal() +
+  labs(x='Distance')
 
-ggplot(data = flights , aes ( x = DISTANCE))+
-  geom_histogram(fill = 'darkred')+
-  scale_x_log10()+
-  theme_minimal()
+ggplot(data = flights , aes ( x = DISTANCE)) +
+  geom_histogram(fill ='darkred') +
+  scale_x_log10(breaks = c(0,50,100,250,500,1000,2000,4000)) +
+  theme_minimal() +
+  labs(x='Log(Distance)')
 
-ggplot(data = flights , aes ( x = DISTANCE))+
-  geom_histogram(fill = 'navy')+
-  scale_x_sqrt()+
-  theme_minimal()
+ggplot(data = flights , aes ( x = DISTANCE)) +
+  geom_histogram(fill ='navy') +
+  scale_x_sqrt(breaks = c(0,125,250,500,1000,2000,3000,4000,5000)) +
+  theme_minimal() +
+  labs(x='sqrt(Distance)')
 
 
 
 
 ```
+
+
+
 The summary give us quite interesting inflammations : 
 Interesting in this exploration is that the shortest flight is 31 miles!
 that 25% of the flights were less then 391miles. 
@@ -173,9 +200,9 @@ after 3000 miles.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 summary(flights$AIR_TIME)
-ggplot(data = flights , aes ( x = AIR_TIME))+
-  geom_histogram()+
-  scale_x_continuous(breaks = seq(0,720,60))+
+ggplot(data = flights , aes(x = AIR_TIME)) +
+  geom_histogram() +
+  scale_x_continuous(breaks = seq(0,720,60)) +
   theme_minimal()
 ```
 
@@ -191,8 +218,9 @@ ggplot(data = flights, aes (x= CANCELLED ))+
   theme_minimal() +
   scale_y_continuous(breaks = seq(0,500000,50000))
 
-ggplot(data = subset(flights,flights$CANCELLED == 1 ), aes(x = CANCELLATION_CODE))+
-  geom_histogram(stat = 'count')+
+ggplot(data = subset(flights,flights$CANCELLED == 1 ), 
+       aes(x = CANCELLATION_CODE)) +
+  geom_histogram(stat ='count') +
   theme_minimal() 
 ```
 
@@ -204,15 +232,17 @@ System (C) was the second and Carrier(A) the less common.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ggplot(data = flights , aes ( x = FL_DATE))+
-  geom_histogram(stat= 'count')+
+ggplot(data = flights , aes(x = FL_DATE)) +
+  geom_histogram(stat='count') +
   theme_minimal()
 
-ggplot(data = flights , aes ( x= DAY_OF_WEEK))+
-  geom_histogram(stat= 'count')+
+ggplot(data = flights , aes(x= DAY_OF_WEEK)) +
+  geom_histogram(stat='count') +
   theme_minimal()
 
 ```
+
+
 In these plot we can see the distribution over the days. In the first plot we 
 can see the frequency of flights for each day of March. We can notice the 
 pattern starting from March 1st, a Wednesday, we notice the lower frequency 
@@ -233,6 +263,8 @@ ggplot(data = flights , aes ( flights$FL_NUM))+
 
 
 ```
+
+
 In this plot i trying to understand how many flights , with the same number, 
 fly in a month. as we can see in the plot, the data seems quite unreal, 
 some flights occur almost 300 times in a months. 
@@ -247,15 +279,19 @@ flights$flightsnumber <- paste(flights$UNIQUE_CARRIER, flights$FL_NUM)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights , aes ( flights$flightsnumber))+
-  geom_histogram(stat= 'count') + 
-  theme_minimal()+
-  scale_y_continuous(breaks = seq(0,155,31))+
-  geom_hline(yintercept = 31, color= 'PaleTurquoise' , linetype = 4 )+
-  geom_hline(yintercept = 62,color= 'LightSalmon' , linetype = 4 )
+ggplot(data = flights , aes(flights$flightsnumber)) +
+  geom_histogram(stat='count',) + 
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0,155,31)) +
+  geom_hline(yintercept = 31, color= 'PaleTurquoise', linetype = 4) +
+  geom_hline(yintercept = 62, color= 'LightSalmon', linetype = 4) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  labs(x='Flights Number')
+
 ```
 
-now this plot seems much more realistic, we can  see a line at 31, 
+Now this plot seems much more realistic, we can  see a line at 31, 
 most of the flights occur once a day every day. 
 We have also a lot of flights that occur less , but i think this is normal, some 
 route happened less than 7 times a week, for commercial reason.
@@ -266,15 +302,20 @@ Finally we have some extreme value , especially value over 100.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ggplot(data = flights , aes ( flights$TAIL_NUM))+
-  geom_histogram(stat= 'count')+
-  ylim(c(0,400))+
-  theme_minimal()+
-  scale_y_continuous(breaks = seq(0,350,50), limits = c(0,350))
+ggplot(data = flights , aes(flights$TAIL_NUM)) +
+  geom_histogram(stat= 'count', color = 'navy') +
+  ylim(c(0,400)) +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0,350,50), limits = c(0,350)) +
+  theme(axis.text.x=element_blank(),
+        axis.ticks.x=element_blank()) +
+  labs(x='Airplanes')
 
 
 ```
-here we can see the freq for each tail number, so for each airplane. 
+
+
+Here we can see the freq for each tail number, so for each airplane. 
 We can not distinguish a clear patter, but we can see that there a few 
 airplane that are over 200 as frequency(flights). 
 While The most of it are between 100 and 200. there also airplane that did not 
@@ -283,14 +324,14 @@ there are 4 different check for an airplane and the longest normally is
 every 6 years and could take up to month to complete it. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-A <- ggplot(data = flights, aes ( x = flights$ORIGIN_STATE_NM))+
-  geom_histogram(stat='count')+
-  coord_flip()+
+A <- ggplot(data = flights, aes(x = flights$ORIGIN_STATE_NM)) +
+  geom_histogram(stat='count') +
+  coord_flip() +
   xlab('Origin State Name')
 
-B <- ggplot(data = flights, aes ( x = flights$DEST_STATE_NM))+
-  geom_histogram(stat='count')+
-  coord_flip()+
+B <- ggplot(data = flights, aes(x = flights$DEST_STATE_NM)) +
+  geom_histogram(stat='count') +
+  coord_flip() +
   xlab('')
 
 grid.arrange(A,B,ncol = 2 )
@@ -305,13 +346,13 @@ Texas , Georgia and Illinois.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-DEP <- ggplot(data = flights , aes ( x = flights$DEP_TIME))+
-  geom_histogram(fill = 'MediumSeaGreen')+
-  scale_x_continuous(breaks = seq(0,2400,200),limits = c(0,2400))
+DEP <- ggplot(data = flights , aes(x = flights$DEP_TIME)) +
+  geom_histogram(fill = 'MediumSeaGreen') +
+  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400))
 
-ARR <- ggplot(data = flights , aes ( x = flights$ARR_TIME))+
-  geom_histogram(fill= 'DarkRed' )+
-  scale_x_continuous(breaks = seq(0,2400,200),limits = c(0,2400))
+ARR <- ggplot(data = flights , aes(x = flights$ARR_TIME)) +
+  geom_histogram(fill= 'DarkRed') +
+  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400))
 
 grid.arrange(DEP,ARR, ncol =1)
 
@@ -361,12 +402,15 @@ was much clear the frequency per day of flights.
 ```{r echo=FALSE , message=FALSE, warning=FALSE, Bivariate_Plots}
 set.seed(505)
 flights_sample <- sample_n(flights,50000)
-
+# this will give me a sample of 50000 flights 
 ```
 
-```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggpairs(flights_sample, columns = c(1,3,22,24,27,30,37,39))
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+
+ggpairs(flights_sample, columns = c('DAY_OF_WEEK','UNIQUE_CARRIER',
+                                    'DEP_DELAY','TAXI_OUT','TAXI_IN',
+                                    'ARR_DELAY','AIR_TIME','DISTANCE'))
 ```
 
 I used GGpair to look for correlation between some of the variables in the 
@@ -376,11 +420,12 @@ arriving delay, or distance and air time there are not important correlation.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, !is.na(ARR_DELAY)) , aes (x = ARR_DELAY, y = DEP_DELAY))+
-  geom_jitter(alpha = 1/10, color = 'orange')+
-  scale_x_continuous(limits = c(-60,240), breaks = seq(-60,240,60))+
-  scale_y_continuous(limits = c(-60,240), breaks = seq(-60,240,60))+
-  geom_abline(slope = 1, color = 'navy', linetype = 4 )+
+ggplot(data = subset(flights_sample, !is.na(ARR_DELAY)), 
+       aes(x = ARR_DELAY, y = DEP_DELAY)) +
+  geom_jitter(alpha = 1/10, color = 'orange') +
+  scale_x_continuous(limits = c(-60,240), breaks = seq(-60,240,60)) +
+  scale_y_continuous(limits = c(-60,240), breaks = seq(-60,240,60)) +
+  geom_abline(slope = 1, color = 'navy', linetype = 4 ) +
   theme_minimal()
 ```
 
@@ -393,9 +438,9 @@ one that arrived with less delay, so they do not recover easily the delay flying
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample , aes (x = DEP_DELAY, y =TAXI_OUT  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
-  scale_x_continuous(limits = c(-60,240), breaks = seq(-60,240,60))+
+ggplot(data = flights_sample, aes(x = DEP_DELAY, y =TAXI_OUT)) +
+  geom_jitter(alpha = 1/20, color = 'black') +
+  scale_x_continuous(limits = c(-60,240), breaks = seq(-60,240,60)) +
   theme_minimal()
 
 cor.test(flights_sample$DEP_DELAY, flights_sample$TAXI_OUT)
@@ -408,9 +453,9 @@ more time taxing. While when in late they spent less time normally.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 cor.test(flights_sample$ARR_DELAY, flights_sample$TAXI_OUT)
 
-ggplot(data = flights_sample , aes (x = ARR_DELAY, y =TAXI_OUT  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
-  scale_x_continuous(breaks = seq(-60,240,60),limits = c(-60,240))+
+ggplot(data = flights_sample, aes(x = ARR_DELAY, y =TAXI_OUT)) +
+  geom_jitter(alpha = 1/20, color = 'black') +
+  scale_x_continuous(breaks = seq(-60,240,60),limits = c(-60,240)) +
   theme_minimal()
 
 ```
@@ -423,12 +468,14 @@ of 0.19.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample , aes (y = ARR_DELAY, x=UNIQUE_CARRIER  ))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=3, aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(-60,60))+
+ggplot(data = flights_sample, aes(y = ARR_DELAY, x=UNIQUE_CARRIER)) + 
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=3, 
+               aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(-60,60)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 ```
 
 here the box plot of the arriving delay for each carrier. 
@@ -436,21 +483,22 @@ As I would never expect, most of the operator have a median that is less than 0.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample , aes (y = ARR_DELAY, x=ORIGIN_STATE_NM  ))+
-  geom_boxplot()+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=2)+
-  scale_y_continuous(limits = c(-60,60))+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplot(data = flights_sample, aes(y = ARR_DELAY, x=ORIGIN_STATE_NM)) +
+  geom_boxplot(width =0.4, outlier.size =0.4, outlier.colour ='Darkred') +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=2) +
+  scale_y_continuous(limits = c(-60,60)) +
+  theme_minimal() +
+  coord_flip() +
+  theme(axis.text = element_text(size = 5))
 ```
 
 here  an other box plot this time per states. Ans as we can see, nobody has a 
 median over 0. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample , aes (x = ARR_DELAY, y =DISTANCE  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
-  scale_x_continuous(breaks = seq(-60,240,60),limits = c(-60,240))+
+ggplot(data = flights_sample , aes(x = ARR_DELAY, y =DISTANCE)) +
+  geom_jitter(alpha = 1/20, color ='black') +
+  scale_x_continuous(breaks = seq(-60,240,60), limits = c(-60,240)) +
   theme_minimal()
 
 cor.test(flights_sample$ARR_DELAY, flights_sample$DISTANCE)
@@ -461,9 +509,9 @@ correlation between them, and it seems that at every distance there are delays.
 there are few delays for long distance but there less flights of this kind. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample , aes (x = DEP_DELAY, y =DISTANCE  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
-  scale_x_continuous(breaks = seq(-60,240,60),limits = c(-60,240))+
+ggplot(data = flights_sample , aes (x = DEP_DELAY, y =DISTANCE)) +
+  geom_jitter(alpha = 1/20, color = 'black') +
+  scale_x_continuous(breaks = seq(-60,240,60), limits = c(-60,240)) +
   theme_minimal()
 ```
 
@@ -472,8 +520,8 @@ same thing for departure delay.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 cor.test(flights_sample$DIFFERENCE, flights_sample$DISTANCE)
-ggplot(data = flights_sample , aes (x = DIFFERENCE, y =DISTANCE  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
+ggplot(data = flights_sample, aes(x = DIFFERENCE, y =DISTANCE)) +
+  geom_jitter(alpha = 1/20, color = 'black') +
   theme_minimal()
 ```
 
@@ -483,21 +531,26 @@ recover lost time on flight, but actually there is not so much a relation.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 cor.test(flights_sample$DIFFERENCE, flights_sample$TAXI_OUT)
-ggplot(data = flights_sample , aes (x = DIFFERENCE, y =TAXI_OUT  ))+
-  geom_jitter(alpha = 1/20, color = 'navy' )+
-  theme_minimal()+
-  geom_smooth(linetype = 3, color = 'red')
+ggplot(data = flights_sample, aes(x = DIFFERENCE, y =TAXI_OUT)) +
+  geom_jitter(alpha = 1/20, color = 'navy') +
+  theme_minimal() +
+  geom_smooth(linetype = 3, color ='red')
 ```
+
+
 This is a strange relation, in fact data tells us that taxi out and difference 
 are negative correlated.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0 & flights_sample$DEP_DELAY_NEW >0)  , aes (x = ARR_DELAY_NEW, y = DEP_DELAY_NEW))+
-  geom_jitter(alpha = 1/5, color = 'orange')+
-  scale_x_continuous(limits = c(0,240), breaks = seq(0,240,30))+
-  scale_y_continuous(limits = c(0,240), breaks = seq(0,240,30))+
-  geom_abline(slope = 1, color = 'navy', linetype = 4 )+
+ggplot(data = subset(flights_sample,
+                     flights_sample$ARR_DELAY_NEW >0 &
+                       flights_sample$DEP_DELAY_NEW >0),
+       aes(x = ARR_DELAY_NEW, y = DEP_DELAY_NEW)) +
+  geom_jitter(alpha = 1/5, color ='orange') +
+  scale_x_continuous(limits = c(0,240), breaks = seq(0,240,30)) +
+  scale_y_continuous(limits = c(0,240), breaks = seq(0,240,30)) +
+  geom_abline(slope = 1, color ='navy', linetype =4) +
   theme_minimal()
 ```
 
@@ -505,29 +558,36 @@ ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0 & flights_s
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$DEP_DELAY_NEW >0)  , aes (x = DEP_DELAY_NEW, y =TAXI_OUT  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
-  scale_x_continuous(limits = c(0,240), breaks = seq(0,240,60))+
+ggplot(data = subset(flights_sample, flights_sample$DEP_DELAY_NEW >0),
+       aes(x = DEP_DELAY_NEW, y =TAXI_OUT)) +
+  geom_jitter(alpha = 1/20, color = 'black') +
+  scale_x_continuous(limits = c(0,240), breaks = seq(0,240,60)) +
   theme_minimal()
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0)  , aes (x = ARR_DELAY_NEW, y =TAXI_OUT  ))+
-  geom_jitter(alpha = 1/20, color = 'black' )+
-  scale_x_continuous(breaks = seq(0,240,60),limits = c(0,240))+
+ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0),
+       aes(x = ARR_DELAY_NEW, y =TAXI_OUT)) +
+  geom_jitter(alpha = 1/20, color = 'black') +
+  scale_x_continuous(breaks = seq(0,240,60), limits = c(0,240)) +
   theme_minimal()
 ```
 
 Using only the information about the delay flights, we have a less clear plots .  
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0) , aes (y = ARR_DELAY_NEW, x=UNIQUE_CARRIER  ))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=5, aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(0,60), breaks = seq(0,60,10))+
+ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0),
+       aes(y = ARR_DELAY_NEW, x=UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=5,
+               aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(0,60), breaks = seq(0,60,10)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 ```
+
+
 Box plot for carrier, give us funny information. Considering only the flights 
 that had a delay, Hawaiian airlines appears to be the best, as it has a median 
 delay approximately of 8. But as saw before , and considering all of his flights, 
@@ -535,20 +595,21 @@ Hawaiian airlines was the worst for march 2017!
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample, aes (y = ARR_DELAY, x= DAY_OF_WEEK  ))+
-  geom_boxplot(aes(group = cut_width(DAY_OF_WEEK, 1)))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=5)+
-  scale_y_continuous(limits = c(-60,60))+
+ggplot(data = flights_sample, aes(y = ARR_DELAY, x= DAY_OF_WEEK)) +
+  geom_boxplot(aes(group = cut_width(DAY_OF_WEEK,1))) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=5) +
+  scale_y_continuous(limits = c(-60,60)) +
   scale_fill_ptol() +
   theme_minimal()
 ```
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0) , aes (y = ARR_DELAY_NEW, x= DAY_OF_WEEK  ))+
-  geom_boxplot(aes(group = cut_width(DAY_OF_WEEK, 1)))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=5)+
-  scale_y_continuous(limits = c(0,60))+
+ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0),
+       aes (y = ARR_DELAY_NEW, x= DAY_OF_WEEK)) +
+  geom_boxplot(aes(group = cut_width(DAY_OF_WEEK,1))) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=5) +
+  scale_y_continuous(limits = c(0,60)) +
   theme_minimal()
   
 ```
@@ -559,21 +620,25 @@ Probably just a lower variance on Saturday.
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample, aes (y = DISTANCE, x=UNIQUE_CARRIER  ))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=5,aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous()+
+ggplot(data = flights_sample, aes (y = DISTANCE, x=UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=5, 
+               aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous() +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample, aes (y = AIR_TIME, x=UNIQUE_CARRIER  ))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=5,aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous()+
+ggplot(data = flights_sample, aes(y = AIR_TIME, x=UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=5, 
+               aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous() +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 ```
 
 This two plot are just distance and air time . As we can see they say pretty 
@@ -582,56 +647,69 @@ of Hawaiian airline. We can assume that Hawaiian, made a lot of shorts trips ,
 between the islands, and than long flights to the mainland. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0)  , aes (y = ARR_DELAY_NEW, x=ORIGIN_STATE_NM  ))+
-  geom_boxplot()+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=3)+
-  scale_y_continuous(limits = c(0,100))+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0), 
+       aes(y = ARR_DELAY_NEW, x=ORIGIN_STATE_NM)) +
+  geom_boxplot(width=0.4,outlier.size = 0.4, outlier.colour ='Darkred') +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=2) +
+  scale_y_continuous(limits = c(0,60)) +
+  theme_minimal() +
+  coord_flip() +
+  theme(axis.text = element_text(size = 5))
 ```
 
 Among the state , north Dakota and Kansans seem to have the better delays, when 
 considered only the delays flights. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0)  , aes (y = ARR_DELAY_NEW, x=ORIGIN  ))+
+ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY_NEW >0),
+       aes(y = ARR_DELAY_NEW, x=ORIGIN)) +
   theme_tufte(ticks=FALSE) + 
-  geom_tufteboxplot()+
+  geom_tufteboxplot() +
   scale_y_continuous(limits = c(0,100))
 ```
 
 same plot buy city is impossible to read
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample , aes (y = CARRIER_DELAY, x=UNIQUE_CARRIER))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(0,30))+
+ggplot(data = flights_sample, aes(y = CARRIER_DELAY, 
+                                  x = UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(0,30)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 
-ggplot(data = flights_sample , aes (y = WEATHER_DELAY, x=UNIQUE_CARRIER))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(0,10))+
+ggplot(data = flights_sample, aes(y = WEATHER_DELAY, 
+                                  x = UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(0,10)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 
-ggplot(data = flights_sample, aes (y = NAS_DELAY, x=UNIQUE_CARRIER))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(0,30))+
+ggplot(data = flights_sample, aes(y = NAS_DELAY, 
+                                  x = UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(0,30)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 
-ggplot(data = flights_sample, aes (y = SECURITY_DELAY, x=UNIQUE_CARRIER))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(0,10))+
+ggplot(data = flights_sample, aes(y = SECURITY_DELAY, 
+                                  x = UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(0,10)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 
-ggplot(data = flights_sample, aes (y = LATE_AIRCRAFT_DELAY, x=UNIQUE_CARRIER))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(0,20))+
+ggplot(data = flights_sample, aes(y = LATE_AIRCRAFT_DELAY, 
+                                  x =UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(0,20)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(color=FALSE)
 ```
 
 As we look at the the box plot of the 5 differences kind of delays by carriers, 
@@ -642,12 +720,13 @@ has the higher rate for delay caused by carrier and late aircraft with
 Southwest airline(WN).
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample, aes (x=DAY_OF_WEEK))+
-  geom_histogram(aes(color=UNIQUE_CARRIER))+
-  facet_wrap(~UNIQUE_CARRIER, scale = 'free_y')+
-  scale_x_continuous(breaks = seq(1,7,1))+
+ggplot(data = flights_sample, aes(x = DAY_OF_WEEK)) +
+  geom_histogram(aes( fill = UNIQUE_CARRIER)) +
+  facet_wrap(~UNIQUE_CARRIER, scale = 'free_y') +
+  scale_x_continuous(breaks = seq(1,7,1)) +
   scale_fill_ptol() +
-  theme_minimal()
+  theme_minimal() +
+  guides(fill=FALSE, color=FALSE)
 ```
 
 Plotting the frequency of each carrier divided per day week, we can notice 
@@ -658,7 +737,11 @@ Spirit Airlines(NK)
 Finally i will group my data by origin city and also by destination city, adding
 the geographic  of each. 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-flights_by_origin <- group_by(subset(flights, !is.na(DEP_DELAY) & !is.na(TAXI_OUT) & !is.na(DEP_DELAY_NEW)), ORIGIN_CITY_NAME)
+flights_by_origin <- group_by(subset(flights,
+                                     !is.na(DEP_DELAY) & 
+                                       !is.na(TAXI_OUT) & 
+                                       !is.na(DEP_DELAY_NEW)), 
+                              ORIGIN_CITY_NAME)
 
 flights_by_origin_info <- summarise(flights_by_origin,
                                     dep_delay_mean = mean(DEP_DELAY),
@@ -671,7 +754,7 @@ flights_by_origin_info <- summarise(flights_by_origin,
                                     taxi_out_median = median(TAXI_OUT),
                                     n=n())
                                     
-geocodes_origin <-geocode(as.character(flights_by_origin_info$ORIGIN_CITY_NAME))
+geocodes_origin <- geocode(as.character(flights_by_origin_info$ORIGIN_CITY_NAME))
 
 flights_by_origin_info$lat = geocodes_origin$lat
 flights_by_origin_info$lon = geocodes_origin$lon
@@ -679,7 +762,11 @@ flights_by_origin_info$lon = geocodes_origin$lon
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
-flights_by_dest <- group_by(subset(flights, !is.na(ARR_DELAY) & !is.na(TAXI_IN) & !is.na(ARR_DELAY_NEW)), DEST_CITY_NAME)
+flights_by_dest <- group_by(subset(flights, 
+                                   !is.na(ARR_DELAY) & 
+                                     !is.na(TAXI_IN) & 
+                                     !is.na(ARR_DELAY_NEW)), 
+                            DEST_CITY_NAME)
 
 flights_by_dest_info <- summarise(flights_by_dest,
                                     arr_delay_mean = mean(ARR_DELAY),
@@ -692,7 +779,7 @@ flights_by_dest_info <- summarise(flights_by_dest,
                                     taxi_out_median = median(TAXI_OUT),
                                     n=n())
                                     
-geocodes_dest <-geocode(as.character(flights_by_dest_info$DEST_CITY_NAME))
+geocodes_dest <- geocode(as.character(flights_by_dest_info$DEST_CITY_NAME))
 
 flights_by_dest_info$lat = geocodes_dest$lat
 flights_by_dest_info$lon = geocodes_dest$lon          
@@ -707,10 +794,12 @@ head(flights_by_origin_info)
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 all_states <- map_data("state")
-ggplot()+ 
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" )+
-  geom_point( data=flights_by_dest_info, aes(x=lon, y=lat, size = n), color="DeepSkyBlue") + 
-  scale_size(name="Destination")+
+ggplot() +  
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10") +
+  geom_point( data=flights_by_dest_info, aes(x=lon, y=lat, size = n), 
+              color="DeepSkyBlue") + 
+  scale_size(name="Destination") +
   theme_map()
 ```
 
@@ -720,8 +809,11 @@ I will use an other map to have a better understanding
 
 world <- map_data("world")
 ggplot()+ 
-  geom_polygon( data= subset(world, world$lat > -25 & world$long < -25 ), aes(x=long, y=lat, group = group),colour="white", fill="grey10" )+ 
-  geom_point( data= flights_by_dest_info, aes(x=lon, y=lat, size = n), color="DeepSkyBlue" ) + scale_size(name="Destination")+
+  geom_polygon( data= subset(world, world$lat > -25 & world$long < -25), 
+                aes(x=long, y=lat, group=group),colour="white", fill="grey10") + 
+  geom_point( data= flights_by_dest_info, aes(x=lon, y=lat, size = n), 
+              color="DeepSkyBlue") + 
+  scale_size(name="Destination") +
   theme_map()
 
 ```
@@ -732,11 +824,17 @@ Also Alaska is much more clear.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point( data=subset(flights_by_dest_info, flights_by_dest_info$lon > -130  & flights_by_dest_info$lat >20), aes(x=lon, y=lat, size = n), color="DeepSkyBlue") + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10" ) +
+  geom_point( data=subset(flights_by_dest_info, 
+                          flights_by_dest_info$lon > -130  & 
+                            flights_by_dest_info$lat >20), 
+              aes(x=lon, y=lat, size = n), color="DeepSkyBlue") + 
   scale_size(name="Destination") +
-  geom_abline(intercept =-48, slope = -0.9, linetype = 2, color = 'OrangeRed' , size = 3 , alpha = 1/3 )+
-  geom_abline(intercept =-58, slope = -0.85, linetype = 2, color = 'OrangeRed' , size = 3 , alpha = 1/3 ) +
+  geom_abline(intercept =-48, slope = -0.9, linetype = 2, 
+              color = 'OrangeRed', size = 3, alpha = 1/3) +
+  geom_abline(intercept =-58, slope = -0.85, linetype = 2, 
+              color = 'OrangeRed', size = 3, alpha = 1/3) +
   theme_map()
 ```
 
@@ -748,8 +846,12 @@ big surface. Some of these states have 2 or 3 destinations.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_dest_info, flights_by_dest_info$lon > -130  & flights_by_dest_info$lat >20), aes(x=lon, y=lat, size = arr_delay_mean), color = 'Khaki') + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group), 
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_dest_info, 
+                         flights_by_dest_info$lon > -130  & 
+                           flights_by_dest_info$lat >20), 
+             aes(x = lon, y = lat, size = arr_delay_mean), color ='Khaki') + 
   scale_size(name="Arriving Delay Mean") +
   theme_map()
 ```
@@ -757,8 +859,12 @@ ggplot() +
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_dest_info, flights_by_dest_info$lon > -130  & flights_by_dest_info$lat >20), aes(x=lon, y=lat, size = taxi_in_mean), color = 'Goldenrod') + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_dest_info, 
+                         flights_by_dest_info$lon > -130 
+                         & flights_by_dest_info$lat >20), 
+             aes(x = lon, y = lat, size = taxi_in_mean), color ='Goldenrod') + 
   scale_size(name="Taxi In Mean") +
   theme_map()
 ```
@@ -773,8 +879,11 @@ We can do the same process for the origin city.
 
 world <- map_data("world")
 ggplot()+ 
-  geom_polygon( data= subset(world, world$lat > 15 & world$long < -50 ), aes(x=long, y=lat, group = group),colour="white", fill="grey10" )+ 
-  geom_point( data= subset(flights_by_origin_info,flights_by_origin_info$lat >15), aes(x=lon, y=lat, size = n), color="DeepSkyBlue" ) + 
+  geom_polygon(data= subset(world, world$lat > 15 & world$long < -50 ),
+               aes(x=long, y=lat, group=group), colour="white", fill="grey10") + 
+  geom_point(data= subset(flights_by_origin_info,
+                          flights_by_origin_info$lat >15),
+             aes(x=lon, y=lat, size = n), color="DeepSkyBlue") + 
   scale_size(name="Origin")
 
 ```
@@ -782,8 +891,12 @@ ggplot()+
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point( data=subset(flights_by_origin_info, flights_by_origin_info$lon > -130  & flights_by_origin_info$lat >20), aes(x=lon, y=lat, size = n), color="DeepSkyBlue") + 
+  geom_polygon(data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_origin_info, 
+                         flights_by_origin_info$lon > -130  & 
+                           flights_by_origin_info$lat >20), 
+             aes(x=lon, y=lat, size = n), color="DeepSkyBlue") + 
   scale_size(name="Origin") +
   theme_map()
 ```
@@ -792,16 +905,24 @@ ggplot() +
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_origin_info, flights_by_origin_info$lon > -130  & flights_by_origin_info$lat >20), aes(x=lon, y=lat, size = dep_delay_mean), color = 'Khaki') + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_origin_info, 
+                         flights_by_origin_info$lon > -130  & 
+                           flights_by_origin_info$lat >20), 
+             aes(x=lon, y=lat, size = dep_delay_mean), color ='Khaki') + 
   scale_size(name="Departure Delay Mean") +
   theme_map()
 ```
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_origin_info, flights_by_origin_info$lon > -130  & flights_by_origin_info$lat >20), aes(x=lon, y=lat, size = taxi_out_mean), color = 'Goldenrod') + 
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_origin_info, 
+                         flights_by_origin_info$lon > -130  & 
+                           flights_by_origin_info$lat >20), 
+             aes(x=lon, y=lat, size = taxi_out_mean), color ='Goldenrod') + 
   scale_size(name="Taxi Out Mean") +
   theme_map()
 ```
@@ -809,8 +930,12 @@ ggplot() +
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ggpairs(flights_by_dest_info, columns = c(2,4,6,8,10))
-ggpairs(flights_by_origin_info, columns = c(2,4,6,8,10))
+ggpairs(flights_by_dest_info, columns = c('arr_delay_mean','arr_delay_new_mean',
+                                          'taxi_in_mean','taxi_out_mean','n'))
+
+ggpairs(flights_by_origin_info, columns = c('dep_delay_mean',
+                                            'dep_delay_new_mean','taxi_in_mean',
+                                            'taxi_out_mean','n'))
 ```
 
 I used GGpairs for the new 2 grouped data for cities.  
@@ -819,8 +944,8 @@ I used GGpairs for the new 2 grouped data for cities.
 
 cor.test(flights_by_dest_info$taxi_in_mean, flights_by_dest_info$n)
 
-ggplot(data= flights_by_dest_info, aes(x=taxi_in_mean, y = n))+
-  geom_point()+
+ggplot(data = flights_by_dest_info, aes(x=taxi_in_mean, y = n)) +
+  geom_point() +
   geom_smooth()
 
 ```
@@ -833,13 +958,16 @@ airport and the taxi in mean. Higher frequency , correspond to an higher mean.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-cor.test(flights_by_origin_info$dep_delay_mean, flights_by_origin_info$taxi_out_mean)
+cor.test(flights_by_origin_info$dep_delay_mean, 
+         flights_by_origin_info$taxi_out_mean)
 
-ggplot(data= flights_by_origin_info, aes(x=taxi_out_mean, y = dep_delay_mean))+
-  geom_point()+
+ggplot(data = flights_by_origin_info, aes(x=taxi_out_mean, y = dep_delay_mean)) +
+  geom_point() +
   geom_smooth()
 
 ```
+
+
 Here the plot of the relation of taxi out mean and departure delay mean. 
 As we see they are slightly correlated, but not as we can think. 
 In fact, departure delay is considered the delay of the aircraft leaving the 
@@ -851,20 +979,23 @@ aircraft on time.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ggplot(data = flights_by_origin_info, aes(taxi_out_mean))+
-  geom_density()+
+ggplot(data = flights_by_origin_info, aes(taxi_out_mean)) +
+  geom_density() +
   theme_minimal()
 
 ```
+
+
 Finally we can see the distribution of taxi out mean that have a shape very 
 similar to the normal distribution. 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-cor.test(flights_sample$ARR_DELAY,flights_sample$DEP_TIME)
-ggplot(data = subset(flights_sample,flights_sample$ARR_DELAY>1), aes(y=ARR_DELAY, x= DEP_TIME))+
-  geom_point(alpha = 1/10, color = 'navy')+
-  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400))+
-  scale_y_sqrt(limits = c(0,600))+
+cor.test(flights_sample$ARR_DELAY, flights_sample$DEP_TIME)
+ggplot(data = subset(flights_sample, flights_sample$ARR_DELAY>1), 
+       aes(y = ARR_DELAY, x = DEP_TIME)) +
+  geom_point(alpha = 1/10, color = 'navy') +
+  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400)) +
+  scale_y_sqrt(limits = c(0,600)) +
   theme_minimal()
 ```
 
@@ -873,11 +1004,11 @@ effective departure time. slightly correlated. we can barely see that long
 the day the arriving delay is seems to increase a little.  
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-cor.test(flights_sample$DEP_TIME,flights_sample$CRS_DEP_TIME)
-ggplot(data = flights_sample, aes(y=DEP_TIME, x= CRS_DEP_TIME))+
-  geom_point(alpha = 1/20)+
-  scale_x_continuous(breaks = seq(0,2400,200))+
-  scale_y_continuous(breaks = seq(0,2400,200))+
+cor.test(flights_sample$DEP_TIME, flights_sample$CRS_DEP_TIME)
+ggplot(data = flights_sample, aes(y = DEP_TIME, x = CRS_DEP_TIME)) +
+  geom_point(alpha = 1/20) +
+  scale_x_continuous(breaks = seq(0,2400,200)) +
+  scale_y_continuous(breaks = seq(0,2400,200)) +
   theme_minimal()
 ```
 
@@ -914,13 +1045,18 @@ slot, and so waste more time, than if it was on time.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE,  Multivariate_Plots}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_origin_info, flights_by_origin_info$lon > -130  & flights_by_origin_info$lat >20), aes(x=lon, y=lat, size = dep_delay_mean, color = taxi_out_mean)) +
-  scale_color_gradient(low = 'blue', high = 'red')+
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="grey10" ) +
+  geom_point(data=subset(flights_by_origin_info, 
+                         flights_by_origin_info$lon > -130  & 
+                           flights_by_origin_info$lat >20), 
+             aes(x=lon, y=lat, size = dep_delay_mean, color = taxi_out_mean)) +
+  scale_color_gradient(low = 'blue', high = 'red') +
   scale_size(name="Origin Delay departure") +
   theme_map()
 
-cor.test(flights_by_origin_info$dep_delay_new_mean, flights_by_origin_info$taxi_out_mean)
+cor.test(flights_by_origin_info$dep_delay_new_mean, 
+         flights_by_origin_info$taxi_out_mean)
 ```
 
 Here a plot with the map of the united states, and the relation between taxi out
@@ -931,10 +1067,14 @@ more market in small origins.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_dest_info, flights_by_dest_info$lon > -130  & flights_by_dest_info$lat >20), aes(x=lon, y=lat, size = n,  colour = taxi_in_mean)) +
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group), 
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_dest_info, 
+                         flights_by_dest_info$lon > -130  & 
+                           flights_by_dest_info$lat >20), 
+             aes(x=lon, y=lat, size = n,  colour = taxi_in_mean)) +
   scale_colour_gradient(low="blue", high="red") +
-  scale_size(name="Destination")+
+  scale_size(name="Destination") +
   theme_map()
 
 cor.test(flights_by_dest_info$n, flights_by_dest_info$taxi_in_mean)
@@ -946,24 +1086,36 @@ airport.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="grey10" ) +
-  geom_point(data=subset(flights_by_dest_info, flights_by_dest_info$lon > -130  & flights_by_dest_info$lat >20), aes(x=lon, y=lat, size = arr_delay_mean,  colour = taxi_out_mean)) +
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group), 
+                colour="white", fill="grey10") +
+  geom_point(data=subset(flights_by_dest_info, 
+                         flights_by_dest_info$lon > -130  & 
+                           flights_by_dest_info$lat >20), 
+             aes(x=lon, y=lat, size = arr_delay_mean, colour = taxi_out_mean)) +
   scale_colour_gradient(low="blue", high="red") +
-  scale_size(name="Destination Delay")+
+  scale_size(name="Destination Delay") +
   theme_map()
 
 cor.test(flights_by_dest_info$arr_delay_mean, flights_by_dest_info$taxi_out_mean)
 ```
+
+
 Plot by destinations , with the relation between the arriving delay mean and 
 taxi out mean ( of the origin airport).  
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
-ggplot(data = flights_sample, aes(DEST_STATE_NM,ORIGIN_STATE_NM)) + 
+ggplot(data =subset(flights_sample, 
+                    flights_sample$ORIGIN_STATE_NM !=
+                      'U.S. Pacific Trust Territories and Possessions' & 
+                      flights_sample$DEST_STATE_NM !=  
+                      'U.S. Pacific Trust Territories and Possessions'), 
+       aes(DEST_STATE_NM,ORIGIN_STATE_NM)) + 
   geom_tile(aes(fill = ARR_DELAY)) + 
-  scale_fill_gradient(low = "blue",high = "red")+
-  theme_minimal()+
-  theme(axis.text.x = element_text(angle = 90, hjust = 1))
+  scale_fill_gradient(low = "blue",high = "red") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1,size = 6)) +
+  theme(axis.text.y = element_text(size = 5))
 ```
 
 In this plot i can see all the line among the state, we can see that none reach 
@@ -973,11 +1125,11 @@ We have some flights that have a arriving delay mean higher, means that it is
 commonly late. 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 cor.test(flights_sample$ARR_DELAY,flights_sample$DEP_TIME)
-ggplot(data = flights_sample, aes(y=ARR_DELAY, x= DEP_TIME))+
-  geom_point(alpha = 1/10, color = 'red')+
-  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400))+
-  scale_y_log10()+
-  theme_minimal()+
+ggplot(data = flights_sample, aes(y=ARR_DELAY, x= DEP_TIME)) +
+  geom_point(alpha = 1/10, color = 'red') +
+  scale_x_continuous(breaks = seq(0,2400,600), limits = c(0,2400)) +
+  scale_y_log10() +
+  theme_minimal() +
   facet_wrap(~UNIQUE_CARRIER)
 ```
 
@@ -986,7 +1138,11 @@ for each carrier .
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-flights_by_tail <- group_by(subset(flights, !is.na(DEP_DELAY) & !is.na(DISTANCE) & !is.na(ARR_DELAY)), TAIL_NUM)
+flights_by_tail <- group_by(subset(flights, 
+                                   !is.na(DEP_DELAY) & 
+                                     !is.na(DISTANCE) & 
+                                     !is.na(ARR_DELAY)), 
+                            TAIL_NUM)
 
 flights_by_tail_info <- summarise(flights_by_tail,
                                     dep_delay_mean = mean(DEP_DELAY),
@@ -998,10 +1154,10 @@ flights_by_tail_info <- summarise(flights_by_tail,
 
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_by_tail_info, aes(arr_delay_mean,n))+
-  geom_jitter(aes(colour = distance_mean), alpha = 1/2)+
-  xlim(-25,100)+
-  theme_minimal()+
+ggplot(data = flights_by_tail_info, aes(arr_delay_mean,n)) +
+  geom_jitter(aes(colour = distance_mean), alpha = 1/2) +
+  xlim(-25,100) +
+  theme_minimal() +
   scale_color_gradient(low='LavenderBlush', high='DarkMagenta')
 ``` 
 
@@ -1014,14 +1170,16 @@ While long distance airplane , have flown less , and the delay seems to be  a
 little bit more higher.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
-ggplot(data = flights_sample, aes(y=ARR_DELAY, x= DEP_TIME))+
-  geom_point(aes(color=DISTANCE))+
-  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400))+
-  scale_y_sqrt(limits = c(0,600))+
-  scale_color_gradient(low='red',high='green')+
-  theme_minimal()+
+ggplot(data = flights_sample, aes(y = ARR_DELAY, x = DEP_TIME)) +
+  geom_point(aes(color=DISTANCE), alpha = 1/15) +
+  scale_x_continuous(breaks = seq(0,2400,200), limits = c(0,2400)) +
+  scale_y_sqrt(limits = c(0,600)) +
+  scale_color_gradient(low='red', high='green') +
+  theme_minimal() +
   facet_wrap(~DAY_OF_WEEK)
 ```
+
+
 Here the plot of arriving delay and departure time, by day of the week, and by 
 distance. We can not distinguish a real pattern among the days. 
 
@@ -1029,9 +1187,10 @@ distance. We can not distinguish a real pattern among the days.
 ```{r echo=FALSE, message=FALSE, warning=FALSE}
 
 cor.test(flights_sample$DIFFERENCE, flights_sample$TAXI_OUT)
-ggplot(data = flights_sample , aes (x = DIFFERENCE, y =TAXI_OUT  ))+
-  geom_jitter(alpha = 1/20,aes(color = AIR_TIME))+
-  theme_minimal()+
+
+ggplot(data = flights_sample , aes(x = DIFFERENCE, y =TAXI_OUT)) +
+  geom_jitter(alpha = 1/20, aes(color = AIR_TIME)) +
+  theme_minimal() +
   scale_color_gradient(low = 'red', high = 'green')
 ```
 
@@ -1064,15 +1223,17 @@ in the opposite sense i would thought.
 ### Plot One
 ```{r echo=FALSE, message=FALSE, warning=FALSE, Plot_One}
 
-ggplot(data = flights, aes (y = ARR_DELAY, x=UNIQUE_CARRIER  ))+
-  geom_boxplot(aes(color=UNIQUE_CARRIER))+
-  stat_summary(fun.y=mean, geom="point", shape=18, size=4, aes(color=UNIQUE_CARRIER))+
-  scale_y_continuous(limits = c(-60,60))+
-  theme_minimal()+
-  labs(x='',y='',
+ggplot(data = flights, aes (y = ARR_DELAY, x=UNIQUE_CARRIER)) +
+  geom_boxplot(aes(color=UNIQUE_CARRIER)) +
+  stat_summary(fun.y=mean, geom="point", shape=18, size=4, 
+               aes(color=UNIQUE_CARRIER)) +
+  scale_y_continuous(limits = c(-60,60)) +
+  theme_minimal() +
+  labs(x='Airlianes Carriers',y='Arriving Delay (min)',
        title ="Arriving delay in march 2017 for US internal flights by carrier", 
        subtitle = "Flights in advance are considered negative values", 
-       caption = "Source https://www.bts.gov 2017")
+       caption = "Source https://www.bts.gov 2017") +
+  guides(color=FALSE)
 
 by(flights$ARR_DELAY, flights$UNIQUE_CARRIER, summary)
 ```
@@ -1090,12 +1251,13 @@ Delta kept 75% of his flights on time.
 
 ### Plot Two
 ```{r echo=FALSE, message=FALSE, warning=FALSE, Plot_Two}
-ggplot(data = flights_by_tail_info, aes(arr_delay_mean,n))+
-  geom_jitter(aes(colour = distance_mean))+
-  xlim(-25,100)+
-  theme_minimal()+
-  scale_color_gradient(low='PaleTurquoise', high='DarkMagenta',name='Distance Mean')+
-  labs(x='Arriving Delay Mean',y='Numbers of flights',
+ggplot(data = flights_by_tail_info, aes(arr_delay_mean,n)) +
+  geom_jitter(aes(colour = distance_mean), alpha =1/5) +
+  scale_x_continuous(limits = c(-25,100)) +
+  theme_minimal() +
+  scale_color_gradient(low='PaleTurquoise', high='DarkMagenta',
+                       name='Distance Mean (Miles)') +
+  labs(x='Arriving Delay Mean (min)',y='Numbers of flights',
        title ="Arriving delay mean, numbers of flights and distance mean per Airplane",
        subtitle = "Each airplane has a unique tail number", 
        caption = "Source https://www.bts.gov 2017")
@@ -1114,16 +1276,24 @@ times and have flown longer distance.
 ### Plot Three
 ```{r echo=FALSE, message=FALSE, warning=FALSE, Plot_Three}
 ggplot() +
-  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),colour="white", fill="SlateGray" ) +
-  geom_point(data=subset(flights_by_origin_info, flights_by_origin_info$lon > -130  & flights_by_origin_info$lat >20), aes(x=lon, y=lat, size = dep_delay_mean, color = taxi_out_mean)) +
-  scale_color_gradient(low = 'navy', high = 'OrangeRed', name ='Taxi out mean')+
-  scale_size(name="Origin Delay departure") +
-  theme_map()+
+  geom_polygon( data=all_states, aes(x=long, y=lat, group = group),
+                colour="white", fill="SlateGray", alpha = 0.8 ) +
+  geom_point(data=subset(flights_by_origin_info, 
+                         flights_by_origin_info$lon > -130  & 
+                           flights_by_origin_info$lat >20), 
+             aes(x=lon, y=lat, size = dep_delay_mean, color = taxi_out_mean), 
+             alpha = 0.7) +
+  scale_color_gradient(low = 'navy', high = 'OrangeRed', 
+                       name ='Taxi out mean (min)') +
+  scale_size(name="Origin Delay departure (min)") +
+  theme_map() +
   labs(title ="Departure delay mean and taxi out mean by city of departure", 
        subtitle = "Multiple airport per city are condired one origin", 
-       caption = "Source https://www.bts.gov 2017")
+       caption = "Source https://www.bts.gov 2017") +
+  theme(legend.position = "right")
 
-cor.test(flights_by_origin_info$dep_delay_new_mean, flights_by_origin_info$taxi_out_mean)
+cor.test(flights_by_origin_info$dep_delay_new_mean, 
+         flights_by_origin_info$taxi_out_mean)
 ```
 
 ### Description Three
@@ -1142,10 +1312,25 @@ So when flights get delayed, it get more difficult to recover form that delay.
 
 # Reflection
 
+Data were imported as they were downloaded, so no correction has been made. 
+During the analysis i create 2 new variables, Difference , that is the 
+difference between Arriving and departure delay, and also flight numbers, 
+merging the unique airline Id and the flight number ( 4 digits ). 
+Along the study I regrouped the data by origin city, but also by destination 
+and finally by tail number to analyse each airplane. 
+At beginning of the analysis I look over most of the variables, and look for 
+particular shape and pattern. Later I focus my attention to the feature of main 
+interest that was the arriving delay . All along I tried to find some specific 
+other variable that could, in part, make me understand better the arriving delay. 
+This research was made by plotting the different variables together or analyzing
+the Pearson's Correlation. Finally I plot more variables together, looking for 
+particular shape and pattern. 
+
 I think that the biggest issue with this data was the quantity of it. I had to 
 start working with a small sample, because 500k were a lot of flights. 
 I was happy anyway to give meaning to all these data, for example in the last 
 plot showed. 
+
 I would love also to have the model of the aircraft, and more commercial 
 information like passengers on board an so on. 
 For further investigation , I would love to work at the same data , with another 
